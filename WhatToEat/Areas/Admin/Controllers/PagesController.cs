@@ -22,8 +22,13 @@ namespace WhatToEat.Areas.Admin.Controllers
                 pagesList = db.Pages.ToArray().OrderBy(x => x.Sorting).Select(x => new PageVM(x)).ToList();
 
             }
-                // Return view with List
-                return View(pagesList);
+              // Return view with List
+              return View(pagesList);
+        }
+              //Get: Admin/Pages/AddPage
+              public ActionResult AddPage()
+        {
+              return View();
         }
     }
 }

@@ -10,8 +10,7 @@ namespace WhatToEat.Models.ViewModels.Pages
     public class PageVM
     {
         public PageVM()
-        {
-                    
+        {          
         }
 
         public PageVM(PageDTO row)
