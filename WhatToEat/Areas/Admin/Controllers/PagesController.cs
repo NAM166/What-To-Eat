@@ -22,13 +22,73 @@ namespace WhatToEat.Areas.Admin.Controllers
                 pagesList = db.Pages.ToArray().OrderBy(x => x.Sorting).Select(x => new PageVM(x)).ToList();
 
             }
-              // Return view with List
-              return View(pagesList);
+            // Return view with List
+            return View(pagesList);
         }
-              //Get: Admin/Pages/AddPage
-              public ActionResult AddPage()
+        //Get: Admin/Pages/AddPage
+        [HttpGet]
+        public ActionResult AddPage()
         {
-              return View();
+            return View();
+        }
+        //Post: Admin/Pages/AddPage
+        [HttpPost]
+        public ActionResult AddPage(PageVM model)
+        {
+            // Check model state
+
+            if (!ModelState.IsValid)
+
+            {
+                return View(model);
+            }
+
+            using (Db db = new Db())
+            {
+                // Declare slug
+                string slug;
+
+                // Init pageDTO
+                PageDTO dto = new PageDTO();
+
+                // DTO Title
+                dto.Title = model.Title;
+                //Check for and set slug if need be
+                if (string.IsNullOrWhiteSpace(model.Slug))
+                {
+                    slug = model.Title.Replace(" ", " ").ToLower();
+                }
+                else
+                {
+                    slug = model.Slug.Replace(" ", " ").ToLower();
+                }
+                // Makesure title and slug are unique 
+                if (db.Pages.Any(x => x.Title == model.Title) || db.Pages.Any(x => x.Slug == slug))
+
+                {
+                    ModelState.AddModelError("", "That Title or Slug already exists.");
+                    return View(model);
+                }
+
+                // DTO rest
+                dto.Slug = slug;
+                dto.Body = model.Body;
+                dto.HasSidebar = model.HasSidebar;
+                dto.Sorting = 100;
+
+                // Save DTO
+                db.Pages.Add(dto);
+                db.SaveChanges();
+
+                }
+
+                // Set TempData message
+                TempData["SM"] = "You have added a new page!";
+
+                // Redirect
+                return RedirectToAction("AddPage");
+
+            }
         }
     }
-}
+
