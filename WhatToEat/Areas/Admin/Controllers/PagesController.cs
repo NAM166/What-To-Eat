@@ -89,6 +89,35 @@ namespace WhatToEat.Areas.Admin.Controllers
                 return RedirectToAction("AddPage");
 
             }
+        //Get: Admin/Pages/EditPage/id
+        public ActionResult EditPage(int id)
+        {
+
+            //Declare pageVM
+            PageVM model;
+
+            using (Db db = new Db())
+            {
+
+                // Get the page
+                PageDTO dto = db.Pages.Find(id);
+                // confirm page exists
+                if (dto == null)
+
+                {
+                    return Content("The Page Does Not Exist");
+                }
+
+                // Init pageVM
+                model = new PageVM(dto);
+
+            }
+
+            // Return view with model 
+
+                return View(model);
+        }
+
         }
     }
 
