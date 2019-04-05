@@ -90,7 +90,10 @@ namespace WhatToEat.Areas.Admin.Controllers
 
             }
         //Get: Admin/Pages/EditPage/id
+        [HttpGet]
         public ActionResult EditPage(int id)
+
+
         {
 
             //Declare pageVM
@@ -113,9 +116,67 @@ namespace WhatToEat.Areas.Admin.Controllers
 
             }
 
+
             // Return view with model 
 
                 return View(model);
+        }
+        //Get: Admin/Pages/EditPage/id
+        [HttpPost]
+        public ActionResult EditPage (PageVM model)
+        {
+            // Check model state
+            if (! ModelState.IsValid)
+            {
+                return View(model);
+            }
+            using (Db db = new Db())
+
+            {
+                // Get page ID
+                int id = model.Id;
+                // Init slug
+                string slug = "Home";
+
+                // Get the page
+                PageDTO dto = db.Pages.Find(id);
+
+                //DTO title
+                dto.Title = model.Title;
+
+                // Check for slug and set in need be
+                if (model.Slug != "Home")
+                {
+                    if (string.IsNullOrWhiteSpace(model.Slug))
+                    {
+                        slug = model.Title.Replace(" ", " ").ToLower();
+                    }
+                    else
+                    {
+                        slug = model.Title.Replace(" ", " ").ToLower();
+                    }
+
+                }
+
+                // Make sure title and slug are unique
+                if (db.Pages.Where(X => X.Id != id).Any(x => x.Title == model.Title) ||
+                   db.Pages.Where(X => X.Id != id).Any(x => x.Slug == slug))
+
+                // DTO the rest
+                dto.Slug = slug;
+                dto.Body = model.Body;
+                dto.HasSidebar = model.HasSidebar;
+
+                // Save the DTO
+                db.SaveChanges();
+                }
+
+            // Set TempData message
+            TempData["sm"] = "You have edited the page!";
+
+            // Redirect 
+            return RedirectToAction("EditPage");
+            
         }
 
         }
