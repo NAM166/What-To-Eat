@@ -80,15 +80,15 @@ namespace WhatToEat.Areas.Admin.Controllers
                 db.Pages.Add(dto);
                 db.SaveChanges();
 
-                }
-
-                // Set TempData message
-                TempData["SM"] = "You have added a new page!";
-
-                // Redirect
-                return RedirectToAction("AddPage");
-
             }
+
+            // Set TempData message
+            TempData["SM"] = "You have added a new page!";
+
+            // Redirect
+            return RedirectToAction("AddPage");
+
+        }
         //Get: Admin/Pages/EditPage/id
         [HttpGet]
         public ActionResult EditPage(int id)
@@ -119,14 +119,14 @@ namespace WhatToEat.Areas.Admin.Controllers
 
             // Return view with model 
 
-                return View(model);
+            return View(model);
         }
         //Get: Admin/Pages/EditPage/id
         [HttpPost]
-        public ActionResult EditPage (PageVM model)
+        public ActionResult EditPage(PageVM model)
         {
             // Check model state
-            if (! ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
@@ -162,23 +162,45 @@ namespace WhatToEat.Areas.Admin.Controllers
                 if (db.Pages.Where(X => X.Id != id).Any(x => x.Title == model.Title) ||
                    db.Pages.Where(X => X.Id != id).Any(x => x.Slug == slug))
 
-                // DTO the rest
-                dto.Slug = slug;
+                    // DTO the rest
+                    dto.Slug = slug;
                 dto.Body = model.Body;
                 dto.HasSidebar = model.HasSidebar;
 
                 // Save the DTO
                 db.SaveChanges();
-                }
+            }
 
             // Set TempData message
             TempData["sm"] = "You have edited the page!";
 
             // Redirect 
             return RedirectToAction("EditPage");
-            
+
         }
+        //Get: Admin/Pages/PageDetails/id
+        public ActionResult PageDetails(int id)
+        {
+            // Declare PageVM
+            PageVM model;
+
+            using (Db db = new Db())
+            {
+                //Get the page
+                PageDTO dto = db.Pages.Find(id);
+
+                // Confirm page exists
+                if (dto == null)
+                {
+                    return Content("The page does not exist.");
+                }
+
+                // Init PageVM
+                model = new PageVM(dto);
+                return View(model);
+            }
 
         }
     }
 
+}
