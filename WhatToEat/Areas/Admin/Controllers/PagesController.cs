@@ -121,7 +121,7 @@ namespace WhatToEat.Areas.Admin.Controllers
 
             return View(model);
         }
-        //Get: Admin/Pages/EditPage/id
+        //Post: Admin/Pages/EditPage/id
         [HttpPost]
         public ActionResult EditPage(PageVM model)
         {
@@ -136,7 +136,7 @@ namespace WhatToEat.Areas.Admin.Controllers
                 // Get page ID
                 int id = model.Id;
                 // Init slug
-                string slug = "Home";
+                string slug = "home";
 
                 // Get the page
                 PageDTO dto = db.Pages.Find(id);
@@ -145,7 +145,7 @@ namespace WhatToEat.Areas.Admin.Controllers
                 dto.Title = model.Title;
 
                 // Check for slug and set in need be
-                if (model.Slug != "Home")
+                if (model.Slug != "home")
                 {
                     if (string.IsNullOrWhiteSpace(model.Slug))
                     {
@@ -197,7 +197,7 @@ namespace WhatToEat.Areas.Admin.Controllers
 
                 // Init PageVM
                 model = new PageVM(dto);
-                
+
             }
             // Return view with model
             return View(model);
@@ -213,9 +213,35 @@ namespace WhatToEat.Areas.Admin.Controllers
                 db.Pages.Remove(dto);
                 // Save
                 db.SaveChanges();
+            }
+            // Redirect
+            return RedirectToAction("Index");
+        }
+        //Post: Admin/Pages/ReorderPages/id
+        [HttpPost]
+        public void ReorderPages(int[]id)
+        {
+            using (Db db = new Db())
+            {
+                // Set intial count 
+                int count = 1;
+
+                // Declare PageDTO
+                PageDTO dto;
+
+                // Set sorting for each page
+                foreach (var pageId in id)
+                {
+                    dto = db.Pages.Find(pageId);
+                    dto.Sorting = count;
+
+                    db.SaveChanges();
+
+                    count++;
+
                 }
-               // Redirect
-                return RedirectToAction("Index");
+            }
+                
         }
     }
 
