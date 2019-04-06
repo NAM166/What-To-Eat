@@ -197,9 +197,25 @@ namespace WhatToEat.Areas.Admin.Controllers
 
                 // Init PageVM
                 model = new PageVM(dto);
-                return View(model);
+                
             }
-
+            // Return view with model
+            return View(model);
+        }
+        //Get: Admin/Pages/DeletePage/id
+        public ActionResult DeletePage(int id)
+        {
+            using (Db db = new Db())
+            {
+                //Get the Page
+                PageDTO dto = db.Pages.Find(id);
+                //Remove the Page
+                db.Pages.Remove(dto);
+                // Save
+                db.SaveChanges();
+                }
+               // Redirect
+                return RedirectToAction("Index");
         }
     }
 
