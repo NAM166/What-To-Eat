@@ -25,12 +25,14 @@ namespace WhatToEat.Areas.Admin.Controllers
             // Return view with List
             return View(pagesList);
         }
+        
         //Get: Admin/Pages/AddPage
         [HttpGet]
         public ActionResult AddPage()
         {
             return View();
         }
+        
         //Post: Admin/Pages/AddPage
         [HttpPost]
         public ActionResult AddPage(PageVM model)
@@ -89,6 +91,7 @@ namespace WhatToEat.Areas.Admin.Controllers
             return RedirectToAction("AddPage");
 
         }
+        
         //Get: Admin/Pages/EditPage/id
         [HttpGet]
         public ActionResult EditPage(int id)
@@ -121,6 +124,7 @@ namespace WhatToEat.Areas.Admin.Controllers
 
             return View(model);
         }
+        
         //Post: Admin/Pages/EditPage/id
         [HttpPost]
         public ActionResult EditPage(PageVM model)
@@ -178,6 +182,7 @@ namespace WhatToEat.Areas.Admin.Controllers
             return RedirectToAction("EditPage");
 
         }
+        
         //Get: Admin/Pages/PageDetails/id
         public ActionResult PageDetails(int id)
         {
@@ -202,6 +207,7 @@ namespace WhatToEat.Areas.Admin.Controllers
             // Return view with model
             return View(model);
         }
+        
         //Get: Admin/Pages/DeletePage/id
         public ActionResult DeletePage(int id)
         {
@@ -217,6 +223,7 @@ namespace WhatToEat.Areas.Admin.Controllers
             // Redirect
             return RedirectToAction("Index");
         }
+        
         //Post: Admin/Pages/ReorderPages/id
         [HttpPost]
         public void ReorderPages(int[]id)
@@ -242,6 +249,50 @@ namespace WhatToEat.Areas.Admin.Controllers
                 }
             }
                 
+        }
+
+        //Get: Admin/Pages/EditSidebar
+        [HttpGet]
+        public ActionResult EditSidebar ()
+        {
+            // Declare model
+            SidebarVM model;
+
+            using (Db db = new Db())
+
+            {
+                // Get the DTO
+                SidebarDTO dto = db.Sidebar.Find(1);
+
+                // Init model 
+                model = new SidebarVM(dto);
+            }
+
+                // Return view model
+                return View(model);
+        }
+        //Post: Admin/Pages/EditSidebar
+        [HttpPost]
+        public ActionResult EditSidebar(SidebarVM model)
+        {
+            using (Db db = new Db())
+            {
+                // Get the DTO
+                SidebarDTO dto = db.Sidebar.Find(1);
+
+                // DTO to body
+                dto.Body = model.Body;
+
+                // Save
+                db.SaveChanges();
+
+            }
+
+            // Set TempData message
+            TempData["SM"] = "You have edited the sidebar!";
+
+            // Redirect 
+               return RedirectToAction("EditSidebar");
         }
     }
 
