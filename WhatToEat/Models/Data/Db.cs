@@ -10,6 +10,8 @@ namespace WhatToEat.Models.Data
     {
         public DbSet <PageDTO> Pages { get; set; }
         public DbSet<SidebarDTO> Sidebar { get; set; }
-        public DbSet<SidebarDTO> Categories { get; set; }
+        public DbSet<CategoryDTO> Categories { get; set; }
+
+        public System.Data.Entity.DbSet<WhatToEat.Models.ViewModels.Eatery.CategoryVM> CategoryVMs { get; set; }
     }
 }
