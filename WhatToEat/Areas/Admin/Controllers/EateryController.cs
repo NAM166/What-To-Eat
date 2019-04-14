@@ -64,7 +64,7 @@ namespace WhatToEat.Areas.Admin.Controllers
 
         }
 
-        //Post: Admin/Pages/ReorderCategories/id
+        //Post: Admin/Eatery/ReorderCategories/id
         [HttpPost]
         public void ReorderCategories(int[] id)
         {
@@ -107,6 +107,44 @@ namespace WhatToEat.Areas.Admin.Controllers
             return RedirectToAction("Categories");
         }
 
+        //Post: Admin/Eatery/ReorderCategories
+        [HttpPost]
+        public string RenameCategory(string newCatName, int id)
+        {
+            using (Db db = new Db())
+            {
+                // Check catrgory name is unique
+                if (db.Categories.Any(x => x.Name == newCatName))
+                    return "titletaken";
 
+                // Get DTO
+                CategoryDTO dto = db.Categories.Find(id);
+
+                // Edit DTO
+                dto.Name = newCatName;
+                dto.Slug = newCatName.Replace(" ", " ").ToLower();
+
+                // Save
+                db.SaveChanges();
+            }
+
+            // Return
+            return "ok";
+        }
+
+        //Get: Admin/Eatery/AddProduct
+        public ActionResult AddProduct()
+        {
+            // Init model
+            ProductVM model = new ProductVM();
+
+            // Add select list of categories to model
+            using (Db db = new Db())
+            {
+                model.Categories = new SelectList(db.Categories.ToList(), "Id", "Name");
+            }
+
+                return View(model);
+        }
     }
 }
