@@ -11,7 +11,7 @@ namespace WhatToEat.Areas.Admin.Controllers
     public class EateryController : Controller
     {
         // GET: Admin/Eatery/categories
-        public ActionResult categories()
+        public ActionResult Categories()
         {
             // Declare a list of models
             List<CategoryVM> categoryVMList;
@@ -26,7 +26,7 @@ namespace WhatToEat.Areas.Admin.Controllers
                 .ToList();
             }
 
-            // Return view to list
+            // Return view with list
             return View(categoryVMList);
         }
 
@@ -34,7 +34,7 @@ namespace WhatToEat.Areas.Admin.Controllers
         [HttpPost]
         public string AddNewCategory(string catName)
         {
-            // Declare id]
+            // Declare id
             string id;
 
             using (Db db = new Db())
@@ -63,5 +63,50 @@ namespace WhatToEat.Areas.Admin.Controllers
             return id;
 
         }
+
+        //Post: Admin/Pages/ReorderCategories/id
+        [HttpPost]
+        public void ReorderCategories(int[] id)
+        {
+            using (Db db = new Db())
+            {
+                // Set intial count 
+                int count = 1;
+
+                // Declare CategoryDTO
+                CategoryDTO dto;
+
+                // Set sorting for each category
+                foreach (var catId in id)
+                {
+                    dto = db.Categories.Find(catId);
+                    dto.Sorting = count;
+
+                    db.SaveChanges();
+
+                    count++;
+
+                }
+            }
+
+        }
+
+        //Get: Admin/Eatery/DeleteCategory/id
+        public ActionResult DeleteCategory(int id)
+        {
+            using (Db db = new Db())
+            {
+                //Get the Category
+                CategoryDTO dto = db.Categories.Find(id);
+                //Remove the category
+                db.Categories.Remove(dto);
+                // Save
+                db.SaveChanges();
+            }
+            // Redirect
+            return RedirectToAction("Categories");
+        }
+
+
     }
 }

@@ -6,7 +6,7 @@
 
 <h2>Categories</h2>
 
-<div class="new-cat">
+<div class="new-cata">
     <input type="text" id="newcatname" />
     <p>
         <a href="#" id="newcata">Add a new category</a>
@@ -16,14 +16,14 @@
     </p>
 </div>
 
-@if (!Model.Any())
+@if (! Model.Any())
 {
     <h1 class="text-center">There are no categories.</h1>
 }
 else
 {
 
-    <table class="table sorting" id="pages">
+    <table class="table sorting categories" id="pages">
         <tr class="home">
             <th>
                 @Html.DisplayNameFor(model => model.Name)
@@ -32,7 +32,7 @@ else
         </tr>
 
         @foreach (var item in Model) {
-            <tr>
+            <tr id="id_@item.Id">
                 <td>
                     @Html.EditorFor(modelItem => item.Name, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                 </td>
@@ -44,7 +44,6 @@ else
 
     </table>
 }
-
 
 @section Scripts {
     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
@@ -91,7 +90,7 @@ else
                         ajaxText.html("<span class ='alert alert-danger'>That title is taken</span>");
                         setTimeout(function () {
                             ajaxText.fadeOut("fast", function () {
-                                ajaxText.html("<img src=/Content/img/ajax-loader.gif");
+                                ajaxText.html("<img src=/Content/img/ajax-loader.gif />");
                             });
                         }, 2000);
                         return false;
@@ -102,14 +101,14 @@ else
                             ajaxText.html("<span class ='alert alert-success'>That category has been added");
                             setTimeout(function () {
                                 ajaxText.fadeOut("fast", function () {
-                                    ajaxText.html("<img src=/Content/img/ajax-loader.gif");
+                                    ajaxText.html("<img src=/Content/img/ajax-loader.gif />");
                                 });
                             }, 2000);
 
                             newCatTextInput.val("");
 
                             var toAppend = $("table#pages tbody tr:last").clone();
-                            toAppend.attr("id", "id" + data);
+                            toAppend.attr("id", "id_" + data);
                             toAppend.find("#item_Name").val(catName);
                             toAppend("a.delete").attr("href", "/admin/eatery/DeleteCategory/" + data);
                             table.append(toAppend);
@@ -122,25 +121,16 @@ else
 
             });
 
-
-
-            ////////////////////////////////////////////
-
-            /*
-             * Confirm page deletion
-             */
-
-            $("a.delete").click(function () {
-                if (!confirm("Confirm page deletion")) return false;
-            });
-
+    /*
+    * Reorder categories 
+    */
 
             $("table#pages tbody").sortable({
                 items: "tr:not(.home)",
                 placeholder: "ui-state-highlight",
                 update: function () {
                     var ids = $("table#pages tbody").sortable("serialize");
-                    var url = "/Admin/Pages/ReorderPages";
+                    var url = "/Admin/Eatery/ReorderCategories";
 
                     $.post(url, ids, function (data) {
 
@@ -148,6 +138,26 @@ else
                 }
             });
             ////////////////////////////////////////////
+
+
+            /*
+             * Confirm category deletion
+             */
+
+            $("body").on("click", "a.delete", function () {
+                if (!confirm("Confirm page deletion")) return false;
+            });
+            ////////////////////////////////////////////
+
+            /*
+           * Rename category
+           */
+
+            var originalTextBoxValue;
+
+            $()
+            ////////////////////////////////////////////
+    
 
         });
 
