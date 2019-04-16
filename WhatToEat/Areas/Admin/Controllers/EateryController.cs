@@ -155,7 +155,7 @@ namespace WhatToEat.Areas.Admin.Controllers
         public ActionResult AddProduct(ProductVM model, HttpPostedFileBase file)
         {
             // Check model state
-            if (!ModelState.IsValid)
+            if (! ModelState.IsValid)
             {
                 using (Db db = new Db())
                 {
@@ -169,6 +169,7 @@ namespace WhatToEat.Areas.Admin.Controllers
             {
                 if (db.Products.Any(x => x.Name == model.Name))
                 {
+                    model.Categories = new SelectList(db.Categories.ToList(), "Id", "Name");
                     ModelState.AddModelError("", "That product name is taken!");
                     return View(model);
                 }
@@ -186,12 +187,12 @@ namespace WhatToEat.Areas.Admin.Controllers
 
 
                 product.Name = model.Name;
-                product.Slug = model.Name.Replace("", " ").ToLower();
+                product.Slug = model.Name.Replace(" ", " ").ToLower();
                 product.Description = model.Description;
                 product.Calorie = model.Calorie;
                 product.CategoryId = model.CategoryId;
 
-                CategoryDTO catDTO = db.Categories.FirstOrDefault(X => X.Id == model.CategoryId);
+                CategoryDTO catDTO = db.Categories.FirstOrDefault(x => x.Id == model.CategoryId);
                 product.CategoryName = catDTO.Name;
 
                 db.Products.Add(product);
@@ -210,10 +211,10 @@ namespace WhatToEat.Areas.Admin.Controllers
             var originalDirectory = new DirectoryInfo(string.Format("{0}Images\\Uploads", Server.MapPath(@"\")));
 
             var pathString1 = Path.Combine(originalDirectory.ToString(), "Products");
-            var pathString2 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString());
-            var pathString3 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString() + "\\Thumbs");
-            var pathString4 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString() + "\\Gallery");
-            var pathString5 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString() + "\\Gallery\\Thumbs");
+            var pathString2 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString() );
+            var pathString3 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString() + "\\Thumbs" );
+            var pathString4 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString() + "\\Gallery" );
+            var pathString5 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString() + "\\Gallery\\Thumbs" );
 
             if (!Directory.Exists(pathString1))
                 Directory.CreateDirectory(pathString1);
@@ -248,7 +249,7 @@ namespace WhatToEat.Areas.Admin.Controllers
 
                     {
                         model.Categories = new SelectList(db.Categories.ToList(), "Id", "Name");
-                        ModelState.AddModelError("", "The image was not uploaded - wrong image extension!");
+                        ModelState.AddModelError("", "The image was not uploaded - wrong image extension.");
                         return View(model);
                     }
 
