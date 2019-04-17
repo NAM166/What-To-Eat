@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -155,7 +156,7 @@ namespace WhatToEat.Areas.Admin.Controllers
         public ActionResult AddProduct(ProductVM model, HttpPostedFileBase file)
         {
             // Check model state
-            if (! ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 using (Db db = new Db())
                 {
@@ -211,10 +212,10 @@ namespace WhatToEat.Areas.Admin.Controllers
             var originalDirectory = new DirectoryInfo(string.Format("{0}Images\\Uploads", Server.MapPath(@"\")));
 
             var pathString1 = Path.Combine(originalDirectory.ToString(), "Products");
-            var pathString2 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString() );
-            var pathString3 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString() + "\\Thumbs" );
-            var pathString4 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString() + "\\Gallery" );
-            var pathString5 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString() + "\\Gallery\\Thumbs" );
+            var pathString2 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString());
+            var pathString3 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString() + "\\Thumbs");
+            var pathString4 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString() + "\\Gallery");
+            var pathString5 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString() + "\\Gallery\\Thumbs");
 
             if (!Directory.Exists(pathString1))
                 Directory.CreateDirectory(pathString1);
@@ -278,15 +279,44 @@ namespace WhatToEat.Areas.Admin.Controllers
                 img.Resize(200, 200);
                 img.Save(path2);
             }
-                #endregion
+            #endregion
             // Redirect
             return RedirectToAction("AddProduct");
 
         }
 
+        public ActionResult Products(int? page, int? catId)
+        {
+            //Declare a list of ProductVM
+            List<ProductVM> listOfProductVM;
+
+            // Set page number
+            var pageNumber = page ?? 1;
+
+            using (Db db = new Db())
+            {
+                // Init the list
+                listOfProductVM = db.Products.ToArray()
+                                  .Where(x => catId == null || catId == 0 || x.CategoryId == catId)
+                                  .Select(x => new ProductVM(x))
+                                  .ToList();
+
+               // Populate categories select list
+                ViewBag.Categories = new SelectList(db.Categories.ToList(), "Id", "Name");
+
+                // Set selected category
+                ViewBag.SelectedCat = catId.ToString();
+            }
+
+            // Set pagination
+            var onePageOfProducts = listOfProductVM.ToPagedList(pageNumber, 25);
+            ViewBag.OnePageOfProducts = onePageOfProducts;
 
 
-
+            return View(listOfProductVM);
+        }
     }
+
 }
+
 
