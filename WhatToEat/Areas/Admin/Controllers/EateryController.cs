@@ -285,6 +285,7 @@ namespace WhatToEat.Areas.Admin.Controllers
 
         }
 
+        //Get: Admin/Eatery/Products
         public ActionResult Products(int? page, int? catId)
         {
             //Declare a list of ProductVM
@@ -315,6 +316,42 @@ namespace WhatToEat.Areas.Admin.Controllers
 
             return View(listOfProductVM);
         }
+
+        //Get: Admin/Shop/EditProduct/id
+        public ActionResult EditProduct(int id)
+        {
+            // Declare productVM
+            ProductVM model;
+
+            using (Db db = new Db())
+            {
+                // Get the product
+                ProductDTO dto = db.Products.Find(id);
+
+                // Make sure product exists
+                if (dto == null)
+                {
+                    return Content("That product does not exist.");
+                }
+
+                // Init model
+                model = new ProductVM(dto);
+
+                // Make a select list
+                model.Categories = new SelectList(db.Categories.ToList(), "Id", "Name");
+
+                //Get all gallery 
+                model.GalleryImages = Directory.EnumerateFiles(Server.MapPath("~/Iages/Uploads/Products/" + id + "Gallery/Thumbs"))
+                                               .Select(fn => Path.GetFileName(fn));
+
+               }
+
+                // Return view with the model
+                return View(model);
+        }
+
+
+
     }
 
 }
