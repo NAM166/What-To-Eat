@@ -6,6 +6,16 @@
 
 <h2>Edit Product</h2>
 
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<style> 
+input#ImageName {
+    display: none;
+}
+</style>
+
 @using (Html.BeginForm("EditProduct", "Eatery", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()

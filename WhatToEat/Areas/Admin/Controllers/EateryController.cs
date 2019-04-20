@@ -302,7 +302,7 @@ namespace WhatToEat.Areas.Admin.Controllers
                                   .Select(x => new ProductVM(x))
                                   .ToList();
 
-               // Populate categories select list
+                // Populate categories select list
                 ViewBag.Categories = new SelectList(db.Categories.ToList(), "Id", "Name");
 
                 // Set selected category
@@ -317,7 +317,7 @@ namespace WhatToEat.Areas.Admin.Controllers
             return View(listOfProductVM);
         }
 
-        //Get: Admin/Shop/EditProduct/id
+        //Get: Admin/Eatery/EditProduct/id
         public ActionResult EditProduct(int id)
         {
             // Declare productVM
@@ -341,16 +341,71 @@ namespace WhatToEat.Areas.Admin.Controllers
                 model.Categories = new SelectList(db.Categories.ToList(), "Id", "Name");
 
                 //Get all gallery 
-                model.GalleryImages = Directory.EnumerateFiles(Server.MapPath("~/Iages/Uploads/Products/" + id + "Gallery/Thumbs"))
+                model.GalleryImages = Directory.EnumerateFiles(Server.MapPath("~/Images/Uploads/Products/" + id + "Gallery/Thumbs"))
                                                .Select(fn => Path.GetFileName(fn));
 
-               }
+            }
 
-                // Return view with the model
-                return View(model);
+            // Return view with the model
+            return View(model);
         }
 
+        //Post: Admin/Eatery/EditProduct/id
+        public ActionResult EditProduct(ProductVM model, HttpPostedFileBase file)
+        {
+            // Get product id
+            int id = model.Id;
 
+            // Populate categories select list and gallery images
+            using (Db db = new Db())
+            {
+                model.Categories = new SelectList(db.Categories.ToList(), "Id", "Name");
+            }
+            model.GalleryImages = Directory.EnumerateFiles(Server.MapPath("~/Images/Uploads/Products/" + id + "Gallery/Thumbs"))
+                                           .Select(fn => Path.GetFileName(fn));
+
+            // Check model state
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            // Make sure product is unique
+            using (Db db = new Db())
+            {
+                if (db.Products.Where(x => x.Id != id).Any(x => x.Name == model.Name))
+                {
+                    ModelState.AddModelError("", "That product name is taken!.");
+                    return View(model);
+                }
+            }
+
+            // Update product
+            using (Db db = new Db())
+            {
+                ProductDTO dto = db.Products.Find(id);
+
+                dto.Name = model.Name;
+                dto.Slug = model.Name.Replace(" ", " ").ToLower();
+                dto.Calorie = model.CategoryId;
+                dto.ImageName = model.ImageName;
+
+                CategoryDTO catDTO = db.Categories.FirstOrDefault(x => x.Id == model.Id);
+
+
+            }
+
+            // Set Temp Data
+            TempData["SM"] = "You have edited the product";
+
+                #region Imge Uplaod
+
+                #endregion
+
+            // Redirect
+            return RedirectToAction("EditProduct");
+
+        }
 
     }
 
