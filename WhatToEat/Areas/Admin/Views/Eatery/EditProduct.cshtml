@@ -36,7 +36,7 @@ input#ImageName {
     <div class="form-group">
         @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+            @Html.TextAreaFor(model => model.Description, new { @class = "form-control" } )
             @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -63,7 +63,7 @@ input#ImageName {
         @Html.EditorFor(model => model.ImageName, new { htmlAttributes = new { @class = "form-control" } })
         <div class="col-md-10">
             <img src="/Images/Uploads/Products/@Model.Id/Thumbs/@Model.ImageName" />
-            <br /> <br />
+            <br /><br />
             <img id="imgpreview" src="#" />
             <br /> <br />
             <div class="col-md-10">

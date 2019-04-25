@@ -318,6 +318,7 @@ namespace WhatToEat.Areas.Admin.Controllers
         }
 
         //Get: Admin/Eatery/EditProduct/id
+        [HttpGet]
         public ActionResult EditProduct(int id)
         {
             // Declare productVM
@@ -341,7 +342,7 @@ namespace WhatToEat.Areas.Admin.Controllers
                 model.Categories = new SelectList(db.Categories.ToList(), "Id", "Name");
 
                 //Get all gallery 
-                model.GalleryImages = Directory.EnumerateFiles(Server.MapPath("~/Images/Uploads/Products/" + id + "Gallery/Thumbs"))
+                model.GalleryImages = Directory.EnumerateFiles(Server.MapPath("~/Images/Uploads/Products/" + id + "/Gallery/Thumbs"))
                                                .Select(fn => Path.GetFileName(fn));
 
             }
@@ -351,6 +352,7 @@ namespace WhatToEat.Areas.Admin.Controllers
         }
 
         //Post: Admin/Eatery/EditProduct/id
+        [HttpPost]
         public ActionResult EditProduct(ProductVM model, HttpPostedFileBase file)
         {
             // Get product id
@@ -361,7 +363,7 @@ namespace WhatToEat.Areas.Admin.Controllers
             {
                 model.Categories = new SelectList(db.Categories.ToList(), "Id", "Name");
             }
-            model.GalleryImages = Directory.EnumerateFiles(Server.MapPath("~/Images/Uploads/Products/" + id + "Gallery/Thumbs"))
+            model.GalleryImages = Directory.EnumerateFiles(Server.MapPath("~/Images/Uploads/Products/" + id + "/Gallery/Thumbs"))
                                            .Select(fn => Path.GetFileName(fn));
 
             // Check model state
@@ -375,7 +377,7 @@ namespace WhatToEat.Areas.Admin.Controllers
             {
                 if (db.Products.Where(x => x.Id != id).Any(x => x.Name == model.Name))
                 {
-                    ModelState.AddModelError("", "That product name is taken!.");
+                    ModelState.AddModelError("", "That product name is taken!");
                     return View(model);
                 }
             }
@@ -386,19 +388,24 @@ namespace WhatToEat.Areas.Admin.Controllers
                 ProductDTO dto = db.Products.Find(id);
 
                 dto.Name = model.Name;
-                dto.Slug = model.Name.Replace(" ", " ").ToLower();
-                dto.Calorie = model.CategoryId;
+                dto.Slug = model.Name.Replace(" ", "-").ToLower();
+                dto.Description = model.Description;
+                dto.Calorie = model.Calorie;
+                dto.CategoryId = model.CategoryId;
                 dto.ImageName = model.ImageName;
 
-                CategoryDTO catDTO = db.Categories.FirstOrDefault(x => x.Id == model.Id);
+                CategoryDTO catDTO = db.Categories.FirstOrDefault(x => x.Id == model.CategoryId);
+                dto.CategoryName = catDTO.Name;
+
+                db.SaveChanges();
 
 
             }
 
             // Set Temp Data
-            TempData["SM"] = "You have edited the product";
+            TempData["SM"] = "You have edited the product!";
 
-                #region Imge Uplaod
+                #region Image Uplaod
 
                 #endregion
 
