@@ -405,10 +405,10 @@ namespace WhatToEat.Areas.Admin.Controllers
             // Set Temp Data
             TempData["SM"] = "You have edited the product!";
 
-                #region Image Uplaod
+            #region Image Uplaod
 
-                // Check for file upload
-                if (file != null && file.ContentLength > 0) {
+            // Check for file upload
+            if (file != null && file.ContentLength > 0) {
 
                 // Get extension 
                 string ext = file.ContentType.ToLower();
@@ -474,12 +474,39 @@ namespace WhatToEat.Areas.Admin.Controllers
 
             }
 
-                #endregion
+            #endregion
 
             // Redirect
             return RedirectToAction("EditProduct");
 
         }
+
+        //Get: Admin/Eatery/DeleteProduct/id
+        public ActionResult DeleteProduct(int id)
+        {
+            //Delete product from db
+            using (Db db = new Db())
+            {
+                ProductDTO dto = db.Products.Find(id);
+                db.Products.Remove(dto);
+
+                db.SaveChanges();
+            }
+
+            //Delete product folder
+            var originalDirectory = new DirectoryInfo(string.Format("{0}Images\\Uploads", Server.MapPath(@"\")));
+            string pathString = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString());
+
+            if (Directory.Exists(pathString))
+                Directory.Delete(pathString, true);
+
+            //Redirect
+            return RedirectToAction("Products");
+        }
+
+        
+
+
 
     }
 
