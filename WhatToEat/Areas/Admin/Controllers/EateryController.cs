@@ -408,7 +408,8 @@ namespace WhatToEat.Areas.Admin.Controllers
             #region Image Uplaod
 
             // Check for file upload
-            if (file != null && file.ContentLength > 0) {
+            if (file != null && file.ContentLength > 0)
+            {
 
                 // Get extension 
                 string ext = file.ContentType.ToLower();
@@ -515,7 +516,7 @@ namespace WhatToEat.Areas.Admin.Controllers
                 HttpPostedFileBase file = Request.Files[fileName];
 
                 //Check it's not null
-                if ( file != null && file.ContentLength > 0)
+                if (file != null && file.ContentLength > 0)
                 {
                     // set directory paths
                     var originalDirectory = new DirectoryInfo(string.Format("{0}Images\\Uploads", Server.MapPath(@"\")));
@@ -535,11 +536,26 @@ namespace WhatToEat.Areas.Admin.Controllers
                     img.Save(path2);
                 }
             }
-            
+
         }
 
-    }
+        //Post: Admin/Eatery/DeleteImage
+        [HttpPost]
+        public void DeleteImage(int id, string imageName)
+        {
 
-}
+            string fullPath1 = Request.MapPath("~/Images/Uploads/Products/" + id.ToString() + "/Gallery/" + imageName);
+            string fullPath2 = Request.MapPath("~/Images/Uploads/Products/" + id.ToString() + "/Gallery/" + imageName);
+
+            if (System.IO.File.Exists(fullPath1))
+                System.IO.File.Exists(fullPath1);
+
+            if (System.IO.File.Exists(fullPath2))
+                System.IO.File.Exists(fullPath2);
+
+
+        }
+    }
+}    
 
 

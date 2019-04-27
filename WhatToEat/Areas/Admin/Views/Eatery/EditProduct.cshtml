@@ -7,7 +7,7 @@
 <h2>Edit Product</h2>
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Products", "Products")
 </div>
 
 <style>
@@ -98,9 +98,9 @@
 
 @foreach (var image in Model.GalleryImages)
 {
-    <div style="display: inline-block">
+    <div style="display: inline-block;margin-right: 15px;">
         <img src="/Images/Uploads/Products/@Model.Id/Gallery/Thumbs/@image" />
-        @Html.ActionLink("delete", "DeleteImage", "Shop", new { @class = "deleteimage", data_name = image })
+        @Html.ActionLink("delete", "DeleteImage", "eatery", new { @class = "deleteimage", data_name = image })
     </div>
 }
 
@@ -116,6 +116,7 @@
 <script>
 
     $(function () {
+        <a href="~/Areas/Admin/Views/Eatery/EditProduct.cshtml">~/Areas/Admin/Views/Eatery/EditProduct.cshtml</a>
 
     /*
     * Preview selected image
@@ -159,6 +160,26 @@
     });
     }
     };
+
+    ////////////////////////////////////////////////////////
+
+    /*
+    * Dropzone js
+    */
+        $("a.deleteimage").click(function (e) {
+            e.preventDefault();
+
+            if (!confirm("Confirm deletion")) return false;
+
+            var $this = $(this);
+            var url = "/admin/eatery/DeleteImage";
+            var imageName = $this.data("name");
+
+            $.post(url, { id: @Model.Id, imageName: imageName }, function (data) {
+                $this.parent().fadeOut("fast");
+
+            });
+        });
 
     ////////////////////////////////////////////////////////
 
