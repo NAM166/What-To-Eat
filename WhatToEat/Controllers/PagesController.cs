@@ -70,5 +70,23 @@ namespace WhatToEat.Controllers
             //Return partial view with list
             return PartialView(pageVMList);
         }
+        
+        public ActionResult SidebarPartial()
+        {
+            //Declare model
+            SidebarVM model;
+
+            //Init model
+            using (Db db = new Db())
+            {
+                SidebarDTO dto = db.Sidebar.Find(1);
+
+                model = new SidebarVM(dto);
+            }
+
+            //Return partial view with model
+            return PartialView(model);
+        }
+
     }
 }

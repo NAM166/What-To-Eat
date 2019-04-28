@@ -12,6 +12,8 @@ namespace WhatToEat
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            routes.MapRoute("SidebarPartial", "Pages/SidebarPartial", new { Controller = "Pages", action = "SidebarPartial" }, new[] { "WhatToEat.Controllers" });
             routes.MapRoute("PagesMenuPartial", "Pages/PagesMenuPartial", new { Controller = "Pages", action = "PagesMenuPartial" }, new[] { "WhatToEat.Controllers" });
             routes.MapRoute("Pages", "{page}", new { Controller = "Pages", action = "Index" }, new[] { "WhatToEat.Controllers" });
             routes.MapRoute("Default", "", new { Controller = "Pages", action = "Index" }, new[] { "WhatToEat.Controllers" });
