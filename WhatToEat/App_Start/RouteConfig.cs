@@ -13,6 +13,7 @@ namespace WhatToEat
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.MapRoute("Eatery", "Eatery/{action}/{name}", new { Controller = "Eatery", action = "Index", name = UrlParameter.Optional }, new[] { "WhatToEat.Controllers" });
             routes.MapRoute("SidebarPartial", "Pages/SidebarPartial", new { Controller = "Pages", action = "SidebarPartial" }, new[] { "WhatToEat.Controllers" });
             routes.MapRoute("PagesMenuPartial", "Pages/PagesMenuPartial", new { Controller = "Pages", action = "PagesMenuPartial" }, new[] { "WhatToEat.Controllers" });
             routes.MapRoute("Pages", "{page}", new { Controller = "Pages", action = "Index" }, new[] { "WhatToEat.Controllers" });

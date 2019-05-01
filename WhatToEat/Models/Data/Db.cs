@@ -18,5 +18,7 @@ namespace WhatToEat.Models.Data
         public System.Data.Entity.DbSet<WhatToEat.Models.ViewModels.Pages.PageVM> PageVMs { get; set; }
 
         public System.Data.Entity.DbSet<WhatToEat.Models.ViewModels.Pages.SidebarVM> SidebarVMs { get; set; }
+
+        public System.Data.Entity.DbSet<WhatToEat.Models.ViewModels.Eatery.CategoryVM> CategoryVMs { get; set; }
     }
 }
