@@ -1,5 +1,7 @@
 ﻿@model WhatToEat.Models.ViewModels.Pages.PageVM
 
+@model CmsEaterypingDiary.Models.ViewModels.Pages.PageVM
+
 @{
     ViewBag.Title = "Edit Page";
 }
@@ -72,14 +74,14 @@
 }
 
 <div>
-    @Html.ActionLink("Back to Page", "Index")
+    @Html.ActionLink("Back to Pages", "Index")
 </div>
 
 @section Scripts {
     <script src="~/Scripts/ckeditor/ckeditor.js"></script>
 
     <script>
-    CKEDITOR.replace("Body");
+        CKEDITOR.replace("Body");
     </script>
 
 }

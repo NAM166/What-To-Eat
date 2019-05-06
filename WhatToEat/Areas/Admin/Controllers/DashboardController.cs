@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace WhatToEat.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class DasboardController : Controller
     {
         // GET: Admin/Dashboard
