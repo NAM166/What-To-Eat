@@ -3,7 +3,6 @@
 @{
     ViewBag.Title = "Products";
 }
-
 @using PagedList.Mvc;
 @using PagedList;
 
@@ -13,7 +12,7 @@
     <option value="0">All</option>
     @foreach (var item in ViewBag.Categories)
     {
-        if (ViewBag.SelectedCat == item.Value)
+        if (ViewBag.SelectCat == item.Value)
         {
             <option selected="selected" value="@item.Value">@item.Text</option>
         }
@@ -22,13 +21,13 @@
             <option value="@item.Value">@item.Text</option>
         }
     }
+
+
 </select>
 <br /><br />
-
 <p>
     @Html.ActionLink("Add New Product", "AddProduct")
 </p>
-
 <table class="table">
     <tr>
         <th>
@@ -56,16 +55,16 @@
                 @product.Description
             </td>
             <td>
-                $@product.Calorie
+                @product.Calorie
             </td>
             <td>
-                <a href="/admin/Eatery/EditProduct/@product.Id">
+                <a href="/admin/eatery/EditProduct/@product.Id">
                     <img src="/Images/Uploads/Products/@product.Id/Thumbs/@product.ImageName" />
                 </a>
             </td>
             <td>
                 @Html.ActionLink("Edit", "EditProduct", new { id = product.Id }) |
-                @Html.ActionLink("Delete", "DeleteProduct", new { id = product.Id }, new { @class = "delete" })
+                @Html.ActionLink("Delete", "DeleteProduct", new { id = product.Id }, new { @class = "delete" } )
             </td>
         </tr>
     }
@@ -75,38 +74,40 @@
 @Html.PagedListPager((IPagedList)ViewBag.OnePageOfProducts, page => Url.Action("Products", new { page, catId = ViewBag.SelectedCat }))
 
 @section Scripts {
-    <script src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
     <script>
 
         $(function () {
 
             /*
-            * Select products from specified category
-            */
+             * Select products from specified category
+             */
 
             $("#SelectCategory").on("change", function () {
                 var url = $(this).val();
 
                 if (url) {
-                    window.location = "/admin/Eatery/Products?catId=" + url;
+                    window.location = "/admin/eatery/Products?catId=" + url
                 }
-
-                return false;
+                    return false;
             });
 
-            //////////////////////////////////////////////////////////////
+            ////////////////////////////////////////////
+
 
             /*
-            * Confirm product deletion
-            */
+          * Confirm product deletion
+          */
 
             $("a.delete").click(function () {
                 if (!confirm("Confirm product deletion")) return false;
             });
 
-            //////////////////////////////////////////////////////////////
+            ////////////////////////////////////////////
+
 
         });
+
 
     </script>
 

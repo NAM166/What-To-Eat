@@ -630,7 +630,7 @@ th {
 .glyphicon-retweet:before {
   content: "\e115";
 }
-.glyphicon-Eateryping-Diary:before {
+.glyphicon-shopping-cart:before {
   content: "\e116";
 }
 .glyphicon-folder-close:before {
@@ -912,7 +912,7 @@ th {
 .glyphicon-pawn:before {
   content: "\e213";
 }
-.glyphicon-biEatery:before {
+.glyphicon-bishop:before {
   content: "\e214";
 }
 .glyphicon-knight:before {

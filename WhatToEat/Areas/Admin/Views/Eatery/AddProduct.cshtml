@@ -5,7 +5,6 @@
 }
 
 <h2>Add Product</h2>
-
 @if (TempData["SM"] != null)
 {
     <div class="alert alert-success">
@@ -13,8 +12,7 @@
     </div>
 }
 
-
-@using (Html.BeginForm("AddPRoduct", "Eatery", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("AddProduct", "Eatery", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -75,13 +73,13 @@
 </div>
 
 @section Scripts {
-    <script>
+ <script>
 
         $(function () {
 
             /*
-            * Preview selected image
-            */
+             * Preview selected image
+             */
 
             function readURL(input) {
                 if (input.files && input.files[0]) {
@@ -93,19 +91,12 @@
                             .width(200)
                             .height(200);
                     }
-
                     reader.readAsDataURL(input.files[0]);
                 }
             }
-
             $("#ImageUpload").change(function () {
                 readURL(this);
-            });
-
-            //////////////////////////////////////////////////////////////
-
-        });
-
-    </script>
+         });
+</script>
 
 }

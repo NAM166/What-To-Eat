@@ -6,7 +6,7 @@
 
 <h2>Categories</h2>
 
-<div class="new-cat">
+<div class="new-cata">
     <input type="text" id="newcatname" />
     <p>
         <a href="#" id="newcata">Add a new category</a>
@@ -16,12 +16,13 @@
     </p>
 </div>
 
-@if (!Model.Any())
+@if (! Model.Any())
 {
     <h1 class="text-center">There are no categories.</h1>
 }
 else
 {
+
     <table class="table sorting categories" id="pages">
         <tr class="home">
             <th>
@@ -30,8 +31,7 @@ else
             <th></th>
         </tr>
 
-        @foreach (var item in Model)
-        {
+        @foreach (var item in Model) {
             <tr id="id_@item.Id">
                 <td>
                     <div class="ajaxdivtd"></div>
@@ -47,14 +47,14 @@ else
 }
 
 @section Scripts {
-    <script src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
     <script>
 
         $(function () {
 
             /*
-            * Add new category
-            */
+             * Add new category
+             */
 
             var newCatA = $("a#newcata");
             var newCatTextInput = $("#newcatname");
@@ -62,9 +62,11 @@ else
             var table = $("table#pages tbody");
 
             newCatTextInput.keyup(function (e) {
-                if (e.keyCode == 13) {
-                    newCatA.click();
+                if (e.keycode == 13)
+                {
+                   newCatA.click();
                 }
+
             });
 
             newCatA.click(function (e) {
@@ -72,21 +74,21 @@ else
 
                 var catName = newCatTextInput.val();
 
-                if (catName.length < 2) {
+                if (catName.lenght < 2) {
                     alert("Category name must be at least 2 characters long.");
                     return false;
                 }
 
                 ajaxText.show();
 
-                var url = "/admin/Eatery/AddNewCategory";
+                var url = "/admin/eatery/AddNewCategory";
 
                 $.post(url, { catName: catName }, function (data) {
 
                     var response = data.trim();
 
                     if (response == "titletaken") {
-                        ajaxText.html("<span class='alert alert-danger'>That title is taken!</span>");
+                        ajaxText.html("<span class ='alert alert-danger'>That title is taken!</span>");
                         setTimeout(function () {
                             ajaxText.fadeOut("fast", function () {
                                 ajaxText.html("<img src=/Content/img/ajax-loader.gif />");
@@ -97,8 +99,7 @@ else
                         if (!$("table#pages").length) {
                             location.reload();
                         } else {
-
-                            ajaxText.html("<span class='alert alert-success'>The category has been added!");
+                            ajaxText.html("<span class ='alert alert-success'>That category has been added");
                             setTimeout(function () {
                                 ajaxText.fadeOut("fast", function () {
                                     ajaxText.html("<img src=/Content/img/ajax-loader.gif />");
@@ -110,20 +111,20 @@ else
                             var toAppend = $("table#pages tbody tr:last").clone();
                             toAppend.attr("id", "id_" + data);
                             toAppend.find("#item_Name").val(catName);
-                            toAppend.find("a.delete").attr("href", "/admin/Eatery/DeleteCategory/" + data);
+                            toAppend("a.delete").attr("href", "/admin/eatery/DeleteCategory/" + data);
                             table.append(toAppend);
                             table.sortable("refresh");
                         }
+
                     }
 
                 });
+
             });
 
-            //////////////////////////////////////////////////////////////
-
-            /*
-            * Reorder categories
-            */
+    /*
+    * Reorder categories 
+    */
 
             $("table#pages tbody").sortable({
                 items: "tr:not(.home)",
@@ -133,26 +134,25 @@ else
                     var url = "/Admin/Eatery/ReorderCategories";
 
                     $.post(url, ids, function (data) {
+
                     });
                 }
             });
-
-            //////////////////////////////////////////////////////////////
+            ////////////////////////////////////////////
 
 
             /*
-            * Confirm category deletion
-            */
+             * Confirm category deletion
+             */
 
             $("body").on("click", "a.delete", function () {
                 if (!confirm("Confirm page deletion")) return false;
             });
-
-            //////////////////////////////////////////////////////////////
+            ////////////////////////////////////////////
 
             /*
-            * Rename category
-            */
+           * Rename category
+           */
 
             var originalTextBoxValue;
 
@@ -160,22 +160,22 @@ else
                 originalTextBoxValue = $(this).val();
                 $(this).attr("readonly", false);
             });
-
+            ////////////////////////////////////////////
+    
             $("table#pages input.text-box").keyup(function (e) {
-                if (e.keyCode == 13) {
+                if (e.keycode == 13) {
                     $(this).blur();
                 }
-            });
-
+        });
             $("table#pages input.text-box").blur(function () {
 
                 var $this = $(this);
                 var ajaxdiv = $this.parent().find(".ajaxdivtd");
                 var newCatName = $this.val();
-                var id = $this.parent().parent().attr("id").substring(3);
-                var url = "/admin/Eatery/RenameCategory";
+                var id = $this.parent().parent().attr("id").substring(3); 
+                var url = "/admin/eatery/RenameCategory";
 
-                if (newCatName.length < 2) {
+                if (newCatName.lenght < 2) {
                     alert("Category name must be at least 2 characters long.");
                     $this.attr("readonly", true);
                     return false;
@@ -186,9 +186,10 @@ else
 
                     if (response == "titletaken") {
                         $this.val(originalTextBoxValue);
-                        ajaxdiv.html("<span class='alert alert-danger'>That title is taken!</span>").show();
+                        ajaxdiv.html("<span class='alert alert-danger'>That category name is taken!</span>").show();
                     } else {
-                        ajaxdiv.html("<span class='alert alert-success'>The category name has been changed!</span>").show();
+                        ajaxdiv.html("<span class='alert alert-success'>That category name has been changed</span>").show();
+
                     }
 
                     setTimeout(function () {
@@ -202,11 +203,11 @@ else
 
             });
 
-            //////////////////////////////////////////////////////////////
-
+            ////////////////////////////////////////////
 
         });
 
+            
     </script>
 
 }
