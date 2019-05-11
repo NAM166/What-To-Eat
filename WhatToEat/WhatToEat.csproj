@@ -229,7 +229,15 @@
     <Compile Include="Views\Account\UserVM.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\aspnet-WhatToEat-20190330031022.mdf" />
+    <Content Include="App_Data\aspnet-WhatToEat-20190330031022_log.ldf">
+      <DependentUpon>aspnet-WhatToEat-20190330031022.mdf</DependentUpon>
+    </Content>
     <Content Include="App_Data\WhatToEat.mdf" />
+    <Content Include="App_Data\WhatToEat.Models.Data.Db.mdf" />
+    <Content Include="App_Data\WhatToEat.Models.Data.Db_log.ldf">
+      <DependentUpon>WhatToEat.Models.Data.Db.mdf</DependentUpon>
+    </Content>
     <Content Include="App_Data\WhatToEat_log.ldf">
       <DependentUpon>WhatToEat.mdf</DependentUpon>
     </Content>
@@ -1057,7 +1065,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties content_4bootstrap_1min_1css_1map__JsonSchema="" Content_4bootstrap_1css_1map__JSONSchema="http://json.schemastore.org/sprite" />
+      <UserProperties Content_4bootstrap_1css_1map__JSONSchema="http://json.schemastore.org/sprite" content_4bootstrap_1min_1css_1map__JsonSchema="" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

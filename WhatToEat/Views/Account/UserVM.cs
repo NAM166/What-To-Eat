@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using WhatToEat.Models.Data;
 
+
 namespace WhatToEat.Views.Account
 {
     public class UserVM

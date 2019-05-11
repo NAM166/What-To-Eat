@@ -110,7 +110,7 @@ else
                             var toAppend = $("table#pages tbody tr:last").clone();
                             toAppend.attr("id", "id_" + data);
                             toAppend.find("#item_Name").val(catName);
-                            toAppend.find("a.delete").attr("href", "/admin/Eatery/DeleteCategory/" + data);
+                            toAppend.find("a.delete").attr("href", "/admin/eatery/DeleteCategory/" + data);
                             table.append(toAppend);
                             table.sortable("refresh");
                         }

@@ -298,8 +298,8 @@ namespace WhatToEat.Controllers
                         // Get product
                         ProductDTO product = db.Products.Where(x => x.Id == orderDetails.ProductId).FirstOrDefault();
 
-                        // Get product price
-                        decimal price = product.Calorie;
+                        // Get product calorie
+                        decimal calorie = product.Calorie;
 
                         // Get product name
                         string productName = product.Name;
@@ -308,7 +308,7 @@ namespace WhatToEat.Controllers
                         productsAndQty.Add(productName, orderDetails.Quantity);
 
                         // Get total
-                        total += orderDetails.Quantity * price;
+                        total += orderDetails.Quantity * calorie;
                     }
 
                     // Add to OrdersForUserVM list
