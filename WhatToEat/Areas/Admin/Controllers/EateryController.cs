@@ -15,7 +15,7 @@ namespace WhatToEat.Areas.Admin.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class EateryController : Controller
-    { // GET: Admin/Shop/Categories
+    { // GET: Admin/atery/Categories
         public ActionResult Categories()
         {
             // Declare a list of models

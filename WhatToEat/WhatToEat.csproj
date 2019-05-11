@@ -229,7 +229,15 @@
     <Compile Include="Views\Account\UserVM.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\aspnet-WhatToEat-20190330031022.mdf" />
+    <Content Include="App_Data\aspnet-WhatToEat-20190330031022_log.ldf">
+      <DependentUpon>aspnet-WhatToEat-20190330031022.mdf</DependentUpon>
+    </Content>
     <Content Include="App_Data\WhatToEat.mdf" />
+    <Content Include="App_Data\WhatToEat.Models.Data.Db.mdf" />
+    <Content Include="App_Data\WhatToEat.Models.Data.Db_log.ldf">
+      <DependentUpon>WhatToEat.Models.Data.Db.mdf</DependentUpon>
+    </Content>
     <Content Include="App_Data\WhatToEat_log.ldf">
       <DependentUpon>WhatToEat.mdf</DependentUpon>
     </Content>
@@ -1011,6 +1019,7 @@
     <Content Include="Views\Diary\DiaryPartial.cshtml" />
     <Content Include="Views\Diary\Index.cshtml" />
     <Content Include="Views\Diary\AddToDiaryPartial.cshtml" />
+    <Content Include="Views\Account\CreateAccount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="fileman\aspnet_client\system_web\2_0_50727\" />
