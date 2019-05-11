@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using WhatToEat.Models.Data;
+﻿using WhatToEat.Models.Data;
 
 namespace WhatToEat.Models.ViewModels.Eatery
 {

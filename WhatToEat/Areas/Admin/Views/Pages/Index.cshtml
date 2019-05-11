@@ -13,7 +13,6 @@
 @if (!Model.Any())
 {
     <h1 class="text-center">There are no pages.</h1>
-
 }
 else
 {
@@ -31,7 +30,8 @@ else
             <th></th>
         </tr>
 
-        @foreach (var item in Model) {
+        @foreach (var item in Model)
+        {
             <tr id="id_@item.Id" class="@item.Slug">
                 <td>
                     @Html.DisplayFor(modelItem => item.Title)
@@ -54,28 +54,27 @@ else
         }
 
     </table>
-
 }
 
 @section Scripts {
-    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
     <script>
 
         $(function () {
 
             /*
-             * Confirm page deletion
-             */
+            * Confirm page deletion
+            */
 
             $("a.delete").click(function () {
                 if (!confirm("Confirm page deletion")) return false;
             });
 
-            ////////////////////////////////////////////
+            //////////////////////////////////////////////////////////////
 
             /*
-             * Reorder pages
-             */
+            * Reorder pages
+            */
 
             $("table#pages tbody").sortable({
                 items: "tr:not(.home)",
@@ -85,14 +84,12 @@ else
                     var url = "/Admin/Pages/ReorderPages";
 
                     $.post(url, ids, function (data) {
-
                     });
                 }
             });
-            ////////////////////////////////////////////
 
+            //////////////////////////////////////////////////////////////
         });
-
 
     </script>
 
