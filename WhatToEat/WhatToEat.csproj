@@ -229,15 +229,7 @@
     <Compile Include="Views\Account\UserVM.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\aspnet-WhatToEat-20190330031022.mdf" />
-    <Content Include="App_Data\aspnet-WhatToEat-20190330031022_log.ldf">
-      <DependentUpon>aspnet-WhatToEat-20190330031022.mdf</DependentUpon>
-    </Content>
     <Content Include="App_Data\WhatToEat.mdf" />
-    <Content Include="App_Data\WhatToEat.Models.Data.Db.mdf" />
-    <Content Include="App_Data\WhatToEat.Models.Data.Db_log.ldf">
-      <DependentUpon>WhatToEat.Models.Data.Db.mdf</DependentUpon>
-    </Content>
     <Content Include="App_Data\WhatToEat_log.ldf">
       <DependentUpon>WhatToEat.mdf</DependentUpon>
     </Content>
